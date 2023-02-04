@@ -558,43 +558,51 @@ const resume = [
     }
 ];
 
-let filterList = resume;
+// import data from './Data.json' assert {type:'json'}
+
+let filterList = data.resume;
+console.log(filterList)
+
 let index = 0;
 
 let resumeWindow = document.getElementById('resume-window');
 let prev = document.getElementById('previous');
 let next = document.getElementById('next');
-let names = document.getElementById('name');
-let appliedFor = document.getElementById('applied-for');
 let currentResume = document.getElementById('current-resume');
 
-const searchFunc = () =>{
-    let searchInput = document.getElementById('search-box').value.toUpperCase();
-    filterList = resume.filter(item => (item.basics.AppliedFor.toUpperCase().indexOf(searchInput) > -1));
-    index=0;
+prev.addEventListener('click', traverseResults('prev'));
+next.addEventListener('click', traverseResults('next'));
 
-    displayResults();
-}
+// check for corner cases
+function checkIndex (){
+    if(filterList.length===0){
+        prev.style.visibility="hidden"; 
+        next.style.visibility="hidden"; 
 
-function traverseResults(param){
+        resumeWindow.classList.add('error-window');
+        resumeWindow.classList.remove('resume-window');
 
-    if(param==='next'){
-        index++;
-        prev.style.visibility="visible";
-        if(index===filterList.length-1){
-            next.style.visibility="hidden";
-        } 
-    }else{
-        index--;
+        resumeWindow.innerHTML = `
+        <div class="error-image"></div>
+        <div class="error-message">
+            <p>No such results found</p>
+        </div>
+        `;
+
+        currentResume.innerHTML = ``
+        return false;
+
+    } else if(filterList.length===1){
+        prev.style.visibility="hidden"; 
+        next.style.visibility="hidden";
+    } else if(index===0){
+        prev.style.visibility="hidden";
         next.style.visibility="visible";
-        if(index===0){
-            prev.style.visibility="hidden";
-        }
     }
-    displayResults();
+    return true;
 }
 
-const displayResults = () =>{
+function displayResults (){
 
     if(checkIndex()){
 
@@ -630,9 +638,7 @@ const displayResults = () =>{
                             <tr><th>Technical Skills</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>${filterList[index].skills.keywords[0]}</td></tr>
-                            <tr><td>${filterList[index].skills.keywords[1]}</td></tr>
-                            <tr><td>${filterList[index].skills.keywords[2]}</td></tr>
+                            ${filterList[index].skills.keywords.map((keyword)=>`<tr><td>${keyword}</td></tr>`)}
                         </tbody>
                     </table>
                     <table class="hobbies" id="hobbies">
@@ -640,9 +646,7 @@ const displayResults = () =>{
                             <tr><th>Hobbies</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>${filterList[index].interests.hobbies[0]}</td></tr>
-                            <tr><td>${filterList[index].interests.hobbies[1]}</td></tr>
-                            <tr><td>${filterList[index].interests.hobbies[2]}</td></tr>
+                            ${filterList[index].interests.hobbies.map((hobby)=>`<tr><td>${hobby}</td></tr>`)}
                         </tbody>
                     </table>
                     <hr/>
@@ -697,39 +701,40 @@ const displayResults = () =>{
         </div>
         `;
 
-        // names.innerText = filterList[index].basics.name;
-        // appliedFor.innerText = `Applied For : ${filterList[index].basics.AppliedFor}`;
         currentResume.innerHTML = `Showing <b>${index+1}</b> of <b>${filterList.length}</b>`
     }
 }
 
-function checkIndex(){
-    if(filterList.length===0){
-        prev.style.visibility="hidden"; 
-        next.style.visibility="hidden"; 
+const searchFunc = () =>{
+    let searchInput = document.getElementById('search-box').value.toUpperCase();
+    filterList = resume.filter(item => (item.basics.AppliedFor.toUpperCase().indexOf(searchInput) > -1));
+    index=0;
 
-        resumeWindow.classList.add('error-window');
-        resumeWindow.classList.remove('resume-window');
-
-        resumeWindow.innerHTML = `
-        <div class="error-image"></div>
-        <div class="error-message">
-            <p>No such results found</p>
-        </div>
-        `;
-        // names.innerText = "NA";
-        // appliedFor.innerText = "Applied For : NA";
-        currentResume.innerHTML = ``
-        return false;
-    } else if(filterList.length===1){
-        prev.style.visibility="hidden"; 
-        next.style.visibility="hidden";
-        return true;
-    } else if(index===0){
-        prev.style.visibility="hidden";
-        next.style.visibility="visible";
-        return true;
-    } else{
-        return true;
-    }
+    displayResults();
 }
+
+function traverseResults (param){
+
+    if(param==='next'){
+        index++;
+        prev.style.visibility="visible";
+        if(index===filterList.length-1){
+            next.style.visibility="hidden";
+        } 
+    }else{
+        index--;
+        next.style.visibility="visible";
+        if(index===0){
+            prev.style.visibility="hidden";
+        }
+    }
+    displayResults();
+}
+
+window.onload = function(){
+    setTimeout(displayResults(), 2000);
+};
+
+// displayResults();
+
+//add a flag value to check whether input has a value in login. Check cases for all
