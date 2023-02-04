@@ -12,13 +12,13 @@
     <title>Resume Page</title>
 </head>
 
-<body onload="displayResults()">
+<body>
     <div class="container">
         <header>
-            <button type="button" class="btn" id="previous" onclick="traverseResults('prev')">Prev</button>
+            <button type="button" class="btn" id="previous">Prev</button>
             <input type="search" class="search-box" id="search-box"
                 placeholder="search for keywords to filter the results" onkeyup="searchFunc()">
-            <button type="button" class="btn" id="next" onclick="traverseResults('next')">Next</button>
+            <button type="button" class="btn" id="next">Next</button>
         </header>
         <main id="resume-window" class="resume-window">
             <!-- <div class="resume-head">
@@ -120,7 +120,8 @@
         </div>
     </div>
 
-    <script src="resume.js"></script>
+    <script type="module" src="resume.js"></script>
+
 </body>
 
 </html>

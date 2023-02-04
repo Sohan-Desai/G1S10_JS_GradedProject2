@@ -47,6 +47,11 @@ header .btn{
     padding: 0.8rem;
     border: 1px solid black;
     border-radius: 2px;
+    transition: .3s ease-in-out;
+}
+
+header .btn:hover{
+    background-color: #ddd;
 }
 
 #names{
@@ -89,6 +94,7 @@ header .btn{
     margin: auto;
     font-size: 2rem;
     font-weight: 500;
+    color: #777;
 }
 
 .resume-window{

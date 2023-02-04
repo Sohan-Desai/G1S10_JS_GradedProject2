@@ -72,8 +72,11 @@ body{
     :root{
         font-size: 50%;
     }
-    .container{
-        width: 50vw;
+}
+
+@media(max-height: 550px){
+    :root{
+        font-size: 50%;
     }
 }
 
@@ -81,7 +84,7 @@ body{
     :root{
         font-size: 45%;
     }
-    .container{
-        width: 50vw;
+    .login{
+        padding: 4rem 8rem 5rem;
     }
 }
