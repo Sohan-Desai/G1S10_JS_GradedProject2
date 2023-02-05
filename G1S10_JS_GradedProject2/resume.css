@@ -224,6 +224,12 @@ header .btn:hover{
     }
 }
 
+@media(max-height: 550px){
+    :root{
+        font-size: 50%;
+    }
+}
+
 @media(max-width: 660px){
     :root{
         font-size: 45%;

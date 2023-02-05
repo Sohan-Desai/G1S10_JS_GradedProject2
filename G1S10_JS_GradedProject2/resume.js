@@ -1,10 +1,16 @@
 
-import data from './Data.json' assert {type:'json'}
-
-let resume = data.resume;
-let filterList = resume;
-
+let resume;
+let filterList;
 let index = 0;
+
+fetch('./Data.json')
+        .then(response => response.json())
+        .then(data => { 
+            resume = data.resume
+            filterList = resume
+        })
+        .then(() => displayResults());
+
 
 let resumeWindow = document.getElementById('resume-window');
 let prev = document.getElementById('previous');
@@ -185,9 +191,3 @@ function traverseResults (param){
     }
     displayResults();
 }
-
-// function myFunction(){
-//     setTimeout(displayResults, 2000);
-// };
-
-displayResults();
