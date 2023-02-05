@@ -4,8 +4,9 @@ localStorage.setItem("password", "1234");
 
 let username = document.getElementById("username");
 let password = document.getElementById("password");
-
 let message = document.querySelector('.message');
+
+let isInvalid = false;
 
 username.addEventListener('textInput', userVerify);
 password.addEventListener('textInput', passVerify);
@@ -29,15 +30,18 @@ function validated(e){
 
     if (username.value == localStorage.getItem("username")) {
         if (password.value == localStorage.getItem("password")) {
+            isInvalid = false;
             window.location.href = "resume.html";
         }
         else {
             showError("Incorrect password");
+            isInvalid = true;
             password.focus();
             return false;
         }
     } else {
         showError("Invalid username");
+        isInvalid = true;
         username.focus();
         return false;
     }
@@ -53,14 +57,14 @@ function clearError(){
 }
 
 function userVerify(){
-    if(username.value !== ""){
+    if(username.value !== "" && isInvalid === false){
         message.style.visibility = "hidden";
         return true;
     }
 }
 
 function passVerify(){
-    if(password.value !== ""){
+    if(password.value !== "" && isInvalid === false){
         message.style.visibility = "hidden";
         return true;
     }
